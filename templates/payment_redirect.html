@@ -1,0 +1,15 @@
+<form id="razorpay-form" action="https://api.razorpay.com/v1/checkout/embedded" method="POST">
+    <input type="hidden" name="key_id" value="{{ razorpay_key }}">
+    <input type="hidden" name="order_id" value="{{ order_id }}">
+    <input type="hidden" name="amount" value="{{ amount }}">
+    <input type="hidden" name="currency" value="INR">
+    <input type="hidden" name="name" value="Sarees Center">
+    <input type="hidden" name="description" value="Purchase">
+    <input type="hidden" name="prefill[email]" value="{{ request.user.email }}">
+    <input type="hidden" name="prefill[contact]" value="9390037986">
+    <input type="submit" value="Proceed to Razorpay">
+</form>
+
+<script>
+    document.getElementById("razorpay-form").submit(); // Auto-submit form
+</script>

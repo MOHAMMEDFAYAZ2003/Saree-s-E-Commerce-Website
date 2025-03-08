@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}?v=2">
+
+
+</head>
+<body>
+    <a href="/"><img class="logo" src="{% static 'images/saree_logo.png' %}" alt="Saree Logo" width="150px" height="40px"></a>
+    
+    <div class="signin-container">
+        <h1 class="signup-title">Sign Up</h1>
+        {% if form.errors %}
+        <div class="messages error">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Continue</button>
+        </form>
+
+        <div class="signin-bottom">
+            <hr>
+            <p>Have an Account?</p>
+            <hr>
+        </div>
+
+        <a href="{% url 'signin' %}" class="signin-signup-btn">Login with Account</a>
+    </div>
+
+</body>
+</html>

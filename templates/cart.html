@@ -1,0 +1,64 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block navblock %}
+<div class="cart">
+    <div class="cart-left">
+        <h1>Shopping Cart</h1>
+        <hr>
+        {% if cart_items %}
+            {% for item in cart_items %}
+                <div class="product-cart-list">
+                    <a href="#"><img src="{{ item.product.image.url }}" width="180px" alt="{{ item.product.title }}"></a>
+                    <div>
+                        <div class="product-cart-titleprice">
+                            <p>{{ item.product.title }}</p>
+                            <p><b>₹{{ item.product.price }}</b></p>
+                        </div>
+                        <p class="product-cart-stock">In Stock</p>
+                        <div class="cart-list-action">
+                            <p>Qty: {{ item.quantity }}</p>
+                            <hr>
+                            <a href="{% url 'remove_from_cart' item.id %}" class="action-btn">Delete</a>
+                            <hr>
+                            <p class="action-btn">Save for later</p>
+                            <hr>
+                            <p class="action-btn">Compare with similar items</p>
+                            <hr>
+                            <p class="action-btn">Share</p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}        
+
+        <div class="cart-list-subtotal">
+            Subtotal ({{ cart_items|length }} Items) : <b>₹{{ total_price }}</b>
+        </div>
+    </div>
+    <div class="cart-right">
+        <div class="cart-free-delivery">
+            <p><i class="fa-solid fa-check" style="color: white; background-color: green; padding: 5px; border-radius: 50%;"></i></p>
+            <p>Your order qualifies for FREE Shipping. <b>Choose this option at Checkout</b> See Details</p>
+        </div>
+        <p class="cart-subtotal"> Subtotal ({{ cart_items|length }} Items) :<b>₹{{ total_price }}</b></p>
+        <form action="" method="">
+            {% csrf_token %}
+            <input type="hidden" name="total_amount" value="{{ total_price|floatformat:2 }}">
+            <button type="submit">Proceed to Pay</button>
+        </form>
+        
+        
+    </div>
+</div>
+
+<footer class="footer-cart">
+    <img src="{% static 'images/saree_logo.png' %}" width="80" alt="Saree Logo">
+    <p>@Sarees Center copyright....</p>
+</footer>
+
+{% endblock navblock %}

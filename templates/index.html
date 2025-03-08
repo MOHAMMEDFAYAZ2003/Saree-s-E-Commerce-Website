@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+{% block navblock %}
+<div class="header-slider">
+    <a href="#" class="control_prev">&#8592</a>
+    <a href="#" class="control_next">&#8594</a>
+    <ul>
+        {% for saree in trending_sarees %}
+            <img src="{{ saree.image.url }}" class="header-img" alt="{{ saree.title }}"/>
+        {% empty %}
+            <p class="no-sarees">No featured sarees available.</p>
+        {% endfor %}
+    </ul>
+</div>
+
+
+{% if sarees %}
+    {% for saree in sarees %}
+        {% if forloop.counter0 == 0 %}  {# First row (first four items) #}
+            <div class="box-row header-box">
+        {% elif forloop.counter0|divisibleby:4 %}  {# Every new row after first #}
+            <div class="box-row">
+        {% endif %}
+
+      
+        <a {% if saree.product_id %} href="{% url 'product' saree.product_id %}" {% else %} href="#" {% endif %} class="box-col">
+            <h3>{{ saree.title }}</h3>
+            <img src="{{ saree.image.url }}" alt="{{ saree.title }}"/>
+            <span class="box-col-a">Shop More</span>
+        </a>
+
+
+        {% if forloop.counter|divisibleby:4 or forloop.last %}
+            </div>  {# Close row div after every four items or last item #}
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <div class="no-sarees">
+        <p>No sarees available at the moment. Please check back later.</p>
+    </div>
+{% endif %}
+
+
+
+<div class="products-slider">
+    <h2 style="padding-left: 10px;">Best Sellers in Silk Sarees</h2>
+
+    <div class="products">
+        {% for saree in silk_sarees %}
+            <a href="#" >
+                <img src="{{ saree.image.url }}" alt="{{ saree.title }}"/>
+            </a>
+        {% empty %}
+            <p class="no-sarees">No Silk Sarees available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="box-row">
+    {% for saree in featured_sarees|slice:"0:4" %}
+        <a href="{% url 'product' saree.product_id %}" class="box-col">
+            <h3>{{ saree.title }}</h3>
+            <img src="{{ saree.image.url }}" alt="{{ saree.title }}"/>
+            <span>Shop More</span>
+        </a>
+        
+        {% empty %}
+            <p class="no-sarees">No Featured Sarees available.</p>
+    {% endfor %}
+</div>
+
+
+<div class="products-slider">
+    <h2 style="padding-left: 10px;">Best Sellers in Cotton Sarees</h2>
+    <div class="products">
+        {% for saree in cotton_sarees %}
+            <a href="#" >
+                <img src="{{ saree.image.url }}" alt="{{ saree.title }}"/>
+            </a>
+        {% empty %}
+            <p class="no-sarees">No Cotton Sarees available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="box-row">
+    {% for saree in featured_sarees|slice:"4:8" %}
+        <a href="{% url 'product' saree.product_id %}" class="box-col">
+            <h3>{{ saree.title }}</h3>
+            <img src="{{ saree.image.url }}" alt="{{ saree.title }}"/>
+            <span>Shop More</span>
+        </a>
+        
+        {% empty %}
+            <p class="no-sarees">No Featured Sarees available.</p>
+    {% endfor %}
+</div>
+
+
+<footer>
+    <img src="{% static 'images/saree_logo.png' %}" width="80"/>
+    <p>@Saree Center copyright....</p>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    console.log("Script loaded");
+
+    const imgs = document.querySelectorAll(".header-slider ul img");
+    const prev_btn = document.querySelector(".control_prev");
+    const next_btn = document.querySelector(".control_next");
+
+    if (imgs.length === 0) {
+        console.error("No images found! Check your HTML.");
+        return;
+    }
+
+    let n = 0;
+
+    function changeSlide() {
+        console.log("Changing slide to index:", n);
+        for (let i = 0; i < imgs.length; i++) {
+            imgs[i].style.display = "none";
+        }
+        imgs[n].style.display = "block";
+    }
+
+    changeSlide();
+
+    prev_btn.addEventListener("click", () => {
+        n = (n > 0) ? n - 1 : imgs.length - 1;
+        changeSlide();
+    });
+
+    next_btn.addEventListener("click", () => {
+        n = (n < imgs.length - 1) ? n + 1 : 0;
+        changeSlide();
+    });
+    const scrollContainers = document.querySelectorAll(".products");
+
+    scrollContainers.forEach((container) => {
+        container.addEventListener("wheel", (evt) => {
+            evt.preventDefault();
+            container.scrollLeft += evt.deltaY * 1.5; // Adjust speed
+
+            // Smooth looping effect
+            if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 5) {
+                container.scrollLeft = 1; // Avoid flickering
+            } else if (container.scrollLeft <= 0) {
+                container.scrollLeft = container.scrollWidth - container.clientWidth - 1; // Reset smoothly
+            }
+        });
+    });
+    const navBar = document.querySelector('nav')
+    const sticky = navBar.offsetTop;
+
+    window.onscroll = () => {
+        if (window.pageYOffset >= sticky){
+            navBar.classList.add('sticky');
+        }else{
+            navBar.classList.remove('sticky');
+        }
+    };
+
+
+    console.log("Script loaded");
+});
+
+</script>
+
+  
+{% endblock navblock %}

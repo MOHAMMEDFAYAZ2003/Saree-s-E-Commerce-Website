@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Clone</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+        
+</head>
+<body>
+    <nav class="nav">
+        <a href="/">
+            <img src="{% static 'images/saree_logo.png' %}" width="80"  alt=""/>
+        </a>
+
+        <div class="nav-country">
+                <i class="fa-solid fa-location-dot location" ></i>
+            <div>
+                <p>Deliver to</p>
+                <h1 class="nav-country-h1">India</h1>
+            </div>
+        </div>
+
+        <div class="nav-search">
+            <div class="nav-search-category">
+                <p>All</p>
+                <i class="fa-solid fa-caret-down all-option"></i>
+            </div>
+            <input type="text" class="nav-search-input" placeholder="Search Sarees" />
+            <i class="fa-solid fa-magnifying-glass nav-search-icon"></i>
+        </div>
+        <div class="nav-language">
+            <!-- <img src="{% static 'images/us_flag.png' %}" class="nav-english"/> -->
+            <div class="e-text-dropdown">
+                <p style="padding-left: 5px;">IND</p>
+
+                <i class="fa-solid fa-caret-down all-option" width="8px"></i>
+            </div>
+        </div>
+        <div class="nav-text">
+            {% if request.user.is_authenticated %}
+            <p class="hello-sign">Hello, {{ request.user.username }}</p>
+            {% else %}
+        <p class="hello-sign"><a href="{% url 'signin' %}">Hello, Sign in</a></p>
+            {% endif %}
+        <h1 class="nav-country-h1">Accounts & <a href="{% url 'signin' %}">Logout</a>  </h1>
+        </div>
+
+        <div class="nav-text">
+            <p class="hello-sign">Return</p>
+            <h1 class="nav-country-h1">& Orders</h1>
+        </div>
+        <a href="{% url 'signin' %}" class="mobile-user-icon" style="display: none;">
+            <img src="{% static 'images/user.png' %}" alt="">
+        </a>
+        <a href="{% url 'cart' %}" class="nav-cart">
+            <i class="fas fa-shopping-cart"></i>
+            <p>(<span class="cart-counter">{{ cart_items|length }}</span>)</p>
+            <h2 class="hello-sign">Cart</h2>
+        </a>
+    </nav>
+<div class="nav-bottom">
+    <div class="menu-icon">
+        <img src="{% static 'images/menu_icon.png' %}" width="25px"/>
+        <p style="padding-left:5px">All</p>
+    </div>
+    <p>Today's Deal</p>
+    <p>Customer Service</p>
+    <p>Registry</p>
+    <p>Gift Cards</p>
+    <p>Sell</p>
+</div>
+{% block navblock %}
+  
+{% endblock navblock %}

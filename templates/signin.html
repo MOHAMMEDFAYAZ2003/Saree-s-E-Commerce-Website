@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="{% static 'css/signin.css' %}">
+</head>
+<body>
+    <a href="/"><img class="logo" src="{% static 'images/saree_logo.png' %}" alt="" width="100px"></a>
+    
+    <div class="signin-container">
+        <h1 class="signin-title">Sign In</h1>
+        
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Continue</button>
+        </form>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+        <p class="signin-condition">By continuing, you agree to Saree Center's <span>Condition of Use</span> and <span>Privacy</span> Notice.</p>
+        <p class="signin-help">&#9656; <span>Need help?</span></p>
+        <hr>
+        <h4>Buying for Work?</h4>
+        <p class="signin-business"><span>Shop on Sarees Center</span></p>
+    </div>
+
+
+    <div class="signin-bottom">
+        <hr>
+        <p>New to Saree's Center</p>
+        <hr>
+    </div>
+    <a href="{% url 'signup' %}"><button class="signin-signup-btn">Create your account</button></a>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="#">Conditions of Use</a>
+            <a href="#">Privacy Notice</a>
+            <a href="#">Help</a>
+        </div>
+        <p class="footer-copyright">@ 1996-2024,Amazon.com,Inc. or its affilialtes</p>
+    </footer>
+</body>
+</html>
