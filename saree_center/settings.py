@@ -10,6 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import dj_database_url
+import os
+from dotenv import load_dotenv
+load_dotenv()  # Add this to load .env variables
+
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -76,19 +82,15 @@ WSGI_APPLICATION = 'saree_center.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-import dj_database_url
-import os
-from dotenv import load_dotenv
-load_dotenv()  # Add this to load .env variables
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+
 
 DATABASES = {
     'default': dj_database_url.config(
         default=f"mysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
     )
 }
-
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
