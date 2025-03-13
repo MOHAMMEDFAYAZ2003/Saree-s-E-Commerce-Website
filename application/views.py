@@ -57,6 +57,8 @@ def product_view(request, product_id):
         'model_name': model_name,  
         'product_id': product_id, 
     })
+
+
 @login_required
 def cart_view(request):
     cart_items = Cart.objects.filter(user=request.user)
@@ -121,12 +123,13 @@ def add_to_cart(request, model_name, product_id):
 
     product = get_object_or_404(product_model, product_id=product_id)
 
+    quantity = int(request.POST.get('quantity',1))
     # Get or create the cart item
     cart_item, created = Cart.objects.get_or_create(
         user=request.user,
         content_type=ContentType.objects.get_for_model(product),
         object_id=product.product_id,  # Ensure you're using the correct ID field
-        defaults={"quantity": 1}
+        defaults={"quantity": quantity}
         
         
     )

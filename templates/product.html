@@ -178,23 +178,16 @@
                 <p><span>Deliver to Hyderabad 10014</span></p>
             </div>
             <h2 class="product-stock">In Stock</h2>
-            <select class="product-quantity">
-                <option value="1">Quantity: 1</option>
-                <option value="2">Quantity: 2</option>
-                <option value="3">Quantity: 3</option>
-            </select>
-            {% comment %} {% comment %} <form action="{% url 'add_to_cart' model_name='saree' product_id=product.product_id %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn product-buy">Add to Cart</button>
-            </form> {% endcomment %}
-
+            
             <form action="{% url 'add_to_cart' model_name=model_name product_id=product_id %}" method="post">
                 {% csrf_token %}
+                <select name="quantity" class="product-quantity">
+                    <option value="1">Quantity: 1</option>
+                    <option value="2">Quantity: 2</option>
+                    <option value="3">Quantity: 3</option>
+                </select>
                 <button type="submit" class="btn product-buy">Add to Cart</button>
             </form> 
-            {% comment %} <a href="{% url 'add_to_cart' model_name=model_name product_id=product_id %}">Add to Cart</a> {% endcomment %}
-
-
 
             <button class="btn product-buy">Buy Now</button>
 

@@ -75,14 +75,19 @@ WSGI_APPLICATION = 'saree_center.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Add this to load .env variables
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'saree',
-        'USER':'root',
-        'PASSWORD':'@Fayaz123',
-        'HOST':'localhost',
-        'PORT':'3306'
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
