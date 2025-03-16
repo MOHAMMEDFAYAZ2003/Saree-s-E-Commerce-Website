@@ -27,12 +27,12 @@ TEMPLATE_DIR = BASE_DIR/'templates'
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-e@^0^-6afris#qqi3umnwdaxvf@5urafd(l-7=z(xi=m3=-t6r'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['saree_center.onrender.com']
+ALLOWED_HOSTS = ['saree_center.pythonanywhere.com']
 
 
 # Application definition
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # <- Place WhiteNoise after SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'saree_center.urls'
 
@@ -86,10 +87,16 @@ WSGI_APPLICATION = 'saree_center.wsgi.application'
 
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"mysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '3306'),
+    }
 }
+
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # Password validation
@@ -152,5 +159,3 @@ MEDIA_ROOT = BASE_DIR/'media'
 
 LOGOUT_REDIRECT_URL = 'signin/'
 
-# RAZORPAY_KEY_ID = "9390037986"
-# RAZORPAY_SECRET = "9390037986"
